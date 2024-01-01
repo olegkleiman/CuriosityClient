@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import Highlight from 'react-highlighter'
 import {
     Container,
     Button,
@@ -94,7 +95,9 @@ const App = () => {
                             </Row>
                         </CardBody>
                         <CardBody>
-                            <CardText>{item.summary}</CardText>
+                            <CardText>
+                                <Highlight search='מסמכים'>{item.summary}</Highlight>
+                            </CardText>
                         </CardBody>
                     </Card>
                 )

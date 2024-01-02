@@ -59,7 +59,7 @@ const App = () => {
     }
 
     return <>
-        <Container className='container-fluid bg-primary text-white text-center'>
+        <Container className='container-fluid text-center'>
         <h1>Semantic Search on tel-aviv.gov.il</h1>
         <p>Click here for a chatbot</p>
         </Container>

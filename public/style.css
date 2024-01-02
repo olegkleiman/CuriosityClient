@@ -46,6 +46,7 @@ input {
 
 
 .container {
+     
     -webkit-text-size-adjust: 100%;
     color: #333;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -57,9 +58,14 @@ input {
     position: relative;
     float: inherit!important;
     max-width: 650px !important;
-    margin: 158px auto !important;
+    /*margin: 158px auto !important;*/
     padding: 0 !important;
     width: 798px;
+    
+}
+#root{
+    margin-top: 158px;
+
 }
 
 .header{

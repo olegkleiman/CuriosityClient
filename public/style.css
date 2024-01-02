@@ -1,0 +1,160 @@
+body 
+{
+    background-image: url(images/background.png);
+    margin: 0;
+}
+header{
+    text-align: center;
+    height: 76px;
+    background-color: #3399ff;
+    color: #FFFFFF;
+    font-size: x-large;
+}
+h3{
+    margin-top: 2px;
+    text-align: center;
+    background-color: #80bfff;
+}
+form{
+    width: 100%;
+    display: inline-block;
+    margin: 20px;
+    border: none
+}
+footer{
+    margin-top: 3%;
+    text-align: center;
+}
+
+input {
+    height: 32px;
+    width: 40%;
+    border: 1px solid #ccc;
+}
+
+.searchButton {
+    background: #3399ff; 
+    border-radius: 10px; 
+    border: 1px solid #999;
+    box-shadow: 6px 6px 5px; 
+    -webkit-box-shadow: 6px 6px 5px #999; 
+    -moz-box-shadow: 6px 6px 5px #999;
+    font-size: xx-large;
+    cursor: pointer;
+}
+
+
+
+.container {
+    -webkit-text-size-adjust: 100%;
+    color: #333;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-size: 1em;
+    line-height: 1.4;
+    font-family: 'blenderRegular',Arial,sans-serif;
+    box-sizing: border-box;
+    min-height: 1px;
+    position: relative;
+    float: inherit!important;
+    max-width: 650px !important;
+    margin: 158px auto !important;
+    padding: 0 !important;
+    width: 798px;
+}
+
+.header{
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    margin: .67em 0;
+    font-family: 'BlenderBold', Arial, sans-serif;
+    font-weight: normal;
+    color: #0099f0;
+    font-size: 50px;
+    line-height: 50px;
+    margin-top: -14px;
+    margin-bottom: 30px;
+}
+
+
+.SearchBox{
+    -webkit-text-size-adjust: 100%;
+    color: #333;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-size: 1em;
+    line-height: 1.4;
+    font-family: 'blenderRegular',Arial,sans-serif;
+    box-sizing: border-box;
+    float: left;
+    max-width: 720px;
+    width: 100%;
+    padding-bottom: 16px;
+}
+
+.SearchBox2{
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    display: inline-block;
+    z-index: 1001;
+    width: 100%;
+    max-width: 720px;
+    max-height: 80px;
+    background-color: #ffffff;
+    font: normal 3.5em 'blenderLight', Arial;
+    color: #2e2e2e!important;
+    vertical-align: top;
+    border-radius: 6px;
+    box-shadow: 0 5px 34px 0 rgba(0, 0, 0, 0.18);
+    border-bottom: 0px;
+    border: none !important;
+    position: relative;
+}
+
+.SearchBoxInput{
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    box-sizing: border-box;
+    font: inherit;
+    font-family: blenderLight !important;
+    border: 1px solid #ababab;
+    color: #444;
+    display: inline-block;
+    float: left;
+    border-style: none;
+    outline-style: none;
+    vertical-align: top;
+    font-size: 20px;
+    margin: 1px 0px 0px 6px;
+    padding: 0px 1px 0px 1px;
+    background-color: transparent;
+    -webkit-appearance: none;
+    width: 100%;
+    line-height: 26px;
+    height: 80px;
+    padding-right: 35px;
+    padding-left: 75px;
+    margin-right: 0px !important;
+}
+
+.SearchIcon{
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font: normal 3.5em 'blenderLight', Arial;
+    box-sizing: border-box;
+    color: #428bca;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: top;
+    border: 1px solid transparent;
+    overflow: auto !important;
+    background: url(/images/search_icon.svg) no-repeat center;
+    background-size: auto, auto;
+    top: 15% !important;
+    position: absolute !important;
+    left: 15px;
+    transform: translate(50%,50%);
+    height: 32px;
+    width: 32px;
+}

@@ -45,7 +45,7 @@ const App = () => {
 
         try
         {
-            const response = await axios.get('http://localhost:7082/api/Search2?q=' + prompt);
+            const response = await axios.get('http://localhost:7038/api/Recall?q=' + prompt);
             const results = await response.data;
             setSearchResults(results);
 
@@ -59,9 +59,9 @@ const App = () => {
     }
 
     return <Container>
-        <h1 style={{display: "flex", justifyContent:"center"}}>
+        {/* <h1 style={{display: "flex", justifyContent:"center"}}>
             Semantic Search on tel-aviv.gov.il
-        </h1>
+        </h1> */}
         <Row>
             <Col md="1" style={{color:'red'}}>
                 <Button className="btn-round" onClick={onSearch}>
@@ -72,6 +72,9 @@ const App = () => {
                 <Input value={prompt}
                     onChange={ e => setPrompt(e.target.value)} />
             </Col>
+        </Row>
+        <Row>
+            <Col />
         </Row>
         {
             onSearching? 

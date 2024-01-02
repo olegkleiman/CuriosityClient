@@ -58,23 +58,22 @@ const App = () => {
 
     }
 
-    return <Container>
-        {/* <h1 style={{display: "flex", justifyContent:"center"}}>
-            Semantic Search on tel-aviv.gov.il
-        </h1> */}
+    return <>
+        <Container className='container-fluid bg-primary text-white text-center'>
+        <h1>Semantic Search on tel-aviv.gov.il</h1>
+        <p>Click here for a chatbot</p>
+        </Container>
+        <Container className='container-fluid mt-3'>
         <Row>
-            <Col md="1" style={{color:'red'}}>
+            <Col sm="1" className='p-3'>
                 <Button className="btn-round" onClick={onSearch}>
                     <BsSearch />
                 </Button>
              </Col> 
-            <Col md="11">
+            <Col sm="11" className='p-3'>
                 <Input value={prompt}
                     onChange={ e => setPrompt(e.target.value)} />
             </Col>
-        </Row>
-        <Row>
-            <Col />
         </Row>
         {
             onSearching? 
@@ -83,30 +82,35 @@ const App = () => {
         {
             searchResults.map( (item, index) => {
                 return (
-                    <Card key={index}>
-                        <CardBody>
-                            <Row>
-                                <Col md="1">
-                                    <img width={64} src={item.imageUrl} />
-                                </Col>                                
-                                <Col md="11">
-                                    <CardTitle tag="h5">{item.title}</CardTitle>
-                                    <CardSubtitle>
-                                        <a href={item.url} target='_blank'>{item.url}</a>
-                                    </CardSubtitle>
-                                </Col>
-                            </Row>
-                        </CardBody>
-                        <CardBody>
-                            <CardText>
-                                <Highlight search='מסמכים'>{item.summary}</Highlight>
-                            </CardText>
-                        </CardBody>
-                    </Card>
+                    <Row key={index}>
+                        <Col>
+                            <Card>
+                                <CardBody>
+                                    <Row>
+                                        <Col md="1" className='p-3'>
+                                            <img width={64} src={item.imageUrl} />
+                                        </Col>                                
+                                        <Col md="11" className='p-3'>
+                                            <CardTitle tag="h5">{item.title}</CardTitle>
+                                            <CardSubtitle>
+                                                <a href={item.url} target='_blank'>{item.url}</a>
+                                            </CardSubtitle>
+                                        </Col>
+                                    </Row>
+                                </CardBody>
+                                <CardBody>
+                                    <CardText>
+                                        <Highlight search='מסמכים'>{item.summary}</Highlight>
+                                    </CardText>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
                 )
             })
         }
     </Container>
+    </>
 
 }
 

@@ -45,7 +45,7 @@ const App = () => {
 
         try
         {
-            const response = await axios.get('http://localhost:7038/api/Recall?q=' + prompt);
+            const response = await axios.get('http://localhost:7071/api/Recall?q=' + prompt);
             const results = await response.data;
             setSearchResults(results);
 
@@ -60,8 +60,8 @@ const App = () => {
 
     return <>
         <Container className='container-fluid text-center'>
-        <h1>Semantic Search on tel-aviv.gov.il</h1>
-        <p>Click here for a chatbot</p>
+            <h1>Semantic Search on tel-aviv.gov.il</h1>
+            <p>Click here for a chatbot</p>
         </Container>
         <Container className='container-fluid mt-3'>
         <Row>
@@ -87,14 +87,16 @@ const App = () => {
                             <Card>
                                 <CardBody>
                                     <Row>
-                                        <Col md="1" className='p-3'>
-                                            <img width={64} src={item.imageUrl} />
+                                        <Col md="2" className='p-3'>
+                                            <img width={64} src={item.imageUrl} className='center-block'/>
                                         </Col>                                
-                                        <Col md="11" className='p-3'>
-                                            <CardTitle tag="h5">{item.title}</CardTitle>
-                                            <CardSubtitle>
-                                                <a href={item.url} target='_blank'>{item.url}</a>
-                                            </CardSubtitle>
+                                        <Col md="10" className='p-3'>
+                                            <CardTitle tag="h5">
+                                                <a href={item.url} target='_blank'>{item.title}</a>
+                                            </CardTitle>
+                                            <cite style={{fontSize: 'small', textOverflow: 'ellipsis'}}>
+                                                {item.url}
+                                            </cite>                                            
                                         </Col>
                                     </Row>
                                 </CardBody>

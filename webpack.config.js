@@ -25,6 +25,10 @@ module.exports = {
                 use: ['babel-loader']               
             },
             {
+                test: /\.(mp3)$/,
+                loader: 'url-loader'
+            },
+            {
                 test: /\.(jpg|png|gif|svg)$/,
                 use: ['file-loader']
             },

@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^1.6.2",
     "react": "^18.2.0",
+    "react-chat-window": "^1.2.1",
     "react-dom": "^18.2.0",
     "react-highlighter": "^0.4.3",
     "react-icons": "^4.12.0",
@@ -24,6 +25,7 @@
     "dotenv": "^16.3.1",
     "file-loader": "^6.2.0",
     "style-loader": "^3.3.3",
+    "url-loader": "^4.1.1",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"

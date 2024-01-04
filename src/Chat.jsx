@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { Launcher } from 'react-chat-window'
 
 
@@ -138,59 +138,164 @@ const Rtl = () => (
     </style>
 )
 
+async function* makeTextFileLineIterator(q, h = [], signal) {
+    const utf8Decoder = new TextDecoder("utf-8");
+    const response = await fetch(`http://localhost:7187/api/complete?q=${q}&h=${JSON.stringify(h)}`, {
+        signal,
+        method: "GET",
+    });
+    let reader = response.body.getReader();
+    let { value: chunk, done: readerDone } = await reader.read();
+    chunk = chunk ? utf8Decoder.decode(chunk, { stream: true }) : "";
 
-export class Demo extends Component {
+    let re = /\r\n|\n|\r/gm;
+    let startIndex = 0;
 
-    constructor() {
-        super();
-        this.state = {
-            messageList: [{
-                author: 'them',
-                type: 'text',
-                data: {
-                    text: 'הי איך אני יכול לעזור?'
-                }
-            },
-            ]
-        };
-    }
-
-    _onMessageWasSent(message) {
-        this.setState({
-            messageList: [...this.state.messageList, message]
-        })
-    }
-
-    _sendMessage(text) {
-        if (text.length > 0) {
-            this.setState({
-                messageList: [...this.state.messageList, {
-                    author: 'them',
-                    type: 'text',
-                    data: { text }
-                }]
-            })
+    for (; ;) {
+        let result = re.exec(chunk);
+        if (!result) {
+            if (readerDone) {
+                break;
+            }
+            let remainder = chunk.substr(startIndex);
+            ({ value: chunk, done: readerDone } = await reader.read());
+            chunk =
+                remainder + (chunk ? utf8Decoder.decode(chunk, { stream: true }) : "");
+            startIndex = re.lastIndex = 0;
+            continue;
         }
+        yield chunk.substring(startIndex, result.index);
+        startIndex = re.lastIndex;
+    }
+    if (startIndex < chunk.length) {
+        // last line didn't end in a newline char
+        yield chunk.substr(startIndex);
+    }
+}
+
+export function Demo() {
+
+    const [messageList, setMessageList] = useState([{
+        author: 'them',
+        type: 'text',
+        data: {
+            text: 'הי איך אני יכול לעזור?'
+        }
+    }])
+
+    const [serverMsg, setServerMsg] = useState(null)
+
+    const [q, setQ] = useState("")
+
+
+    useEffect(() => {
+        if (!q)
+            return;
+
+        const abortController = new AbortController();
+        const signal = abortController.signal;
+        const fetchData = async () => {
+            try {
+                const h = messageList.map((m) => ({
+                    role: m.author == 'them' ? 'assistant' : "user",
+                    content: m.data.text
+                }))
+                for await (let rowLine of makeTextFileLineIterator(q, h,signal)) {
+                    if (!Boolean(rowLine.length)) {
+                        continue;
+                    }
+                    const line = rowLine.replace(/^data: /gm, "")
+                    if (line == "[DONE]") {
+                        setServerMsg(null)
+                    }
+                    else {
+                        const chunk = JSON.parse(line)
+                        const content = chunk.choices[0]?.delta?.content;
+                        if (!content) continue;
+                        setMessageList((prev => {
+                            const newArray = [...prev];
+                            const lastValue = newArray[newArray.length - 1];
+                            if (!lastValue || lastValue.author != 'them') {
+                                newArray.push({
+                                    author: 'them',
+                                    type: 'text',
+                                    data: {
+                                        text: content
+                                    }
+                                })
+                            } else {
+                                newArray[newArray.length - 1] = {
+                                    author: 'them',
+                                    type: 'text',
+                                    data: {
+                                        text: lastValue?.data?.text + content
+                                    }
+                                }
+                            }
+                            return newArray;
+                        }))
+                        setServerMsg((prev) => prev ? content : prev + content)
+                    }
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        fetchData();
+
+        return () => {
+            // Abort the fetch request when the component is unmounted
+            abortController.abort();
+        };
+    }, [q])
+
+    const _onMessageWasSent = (message) => {
+        setMessageList((prev) => [...prev, message])
+        if(message.data?.text)
+            setQ(message.data?.text);
     }
 
-    render() {
-        return (<div>
-            {true && Rtl()}
-            <style>
-                {`.sc-user-input--text {
+
+    useEffect(() => {
+        if (!serverMsg) {
+            return;
+        }
+        else if (serverMsg == "[DONE]") {
+            return;
+        } else {
+            console.log(serverMsg);
+        }
+    }, [serverMsg])
+    // const _sendMessage = (text) => {
+    //     if (text.length > 0) {
+    //         this.setState({
+    //             messageList: [...this.state.messageList, {
+    //                 author: 'them',
+    //                 type: 'text',
+    //                 data: { text }
+    //             }]
+    //         })
+    //     }
+    // }
+
+    return (<div>
+        {true && Rtl()}
+        <style>
+            {`.sc-user-input--text {
                     line-height: 1.3;
                 }`}
-            </style>
-            <Launcher
-                style={{ direction: "ltr" }}
-                agentProfile={{
-                    teamName: 'עיירית תל אביב',
-                    imageUrl: 'images/chat-icon.png'
-                }}
-                onMessageWasSent={this._onMessageWasSent.bind(this)}
-                messageList={this.state.messageList}
-                showEmoji
-            />
-        </div>)
-    }
+        </style>
+        <Launcher
+            style={{ direction: "ltr" }}
+            agentProfile={{
+                teamName: 'עיירית תל אביב',
+                imageUrl: 'images/chat-icon.png'
+            }}
+            onMessageWasSent={_onMessageWasSent}
+            messageList={messageList}
+            showEmoji
+        />
+    </div>)
+
 }

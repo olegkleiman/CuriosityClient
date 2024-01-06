@@ -1,5 +1,5 @@
 {
-  "name": "Annual2023",
+  "name": "CuriosityClient",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -13,7 +13,8 @@
     "react-dom": "^18.2.0",
     "react-highlighter": "^0.4.3",
     "react-icons": "^4.12.0",
-    "reactstrap": "^9.2.1"
+    "reactstrap": "^9.2.1",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.6",

@@ -2,7 +2,6 @@ import React, { Component, useEffect, useState } from 'react'
 import { Launcher } from 'react-chat-window'
 
 
-
 const Rtl = () => (
     <style>
         {`
@@ -140,7 +139,8 @@ const Rtl = () => (
 
 async function* makeTextFileLineIterator(q, h = [], signal) {
     const utf8Decoder = new TextDecoder("utf-8");
-    const response = await fetch(`http://localhost:7187/api/complete?q=${q}&h=${JSON.stringify(h)}`, {
+    const response = await fetch(`http://localhost:7071/api/Chat?q=${q}&h=${JSON.stringify(h)}`,
+    {
         signal,
         method: "GET",
     });
@@ -173,7 +173,7 @@ async function* makeTextFileLineIterator(q, h = [], signal) {
     }
 }
 
-export function Demo() {
+export function ChatWindow() {
 
     const [messageList, setMessageList] = useState([{
         author: 'them',
@@ -196,11 +196,14 @@ export function Demo() {
         const signal = abortController.signal;
         const fetchData = async () => {
             try {
-                const h = messageList.map((m) => ({
-                    role: m.author == 'them' ? 'assistant' : "user",
-                    content: m.data.text
+                const history = messageList.map((m) => ({
+                    Role: 
+                        {
+                            Label: m.author == 'them' ? 'assistant' : "user"
+                        },
+                    Content: m.data.text
                 }))
-                for await (let rowLine of makeTextFileLineIterator(q, h,signal)) {
+                for await (let rowLine of makeTextFileLineIterator(q, history, signal)) {
                     if (!Boolean(rowLine.length)) {
                         continue;
                     }
@@ -210,7 +213,8 @@ export function Demo() {
                     }
                     else {
                         const chunk = JSON.parse(line)
-                        const content = chunk.choices[0]?.delta?.content;
+                        //const content = chunk.choices[0]?.delta?.content;
+                        const content = chunk.Content;
                         if (!content) continue;
                         setMessageList((prev => {
                             const newArray = [...prev];
@@ -294,7 +298,7 @@ export function Demo() {
             }}
             onMessageWasSent={_onMessageWasSent}
             messageList={messageList}
-            showEmoji
+            showEmoji = {false}
         />
     </div>)
 

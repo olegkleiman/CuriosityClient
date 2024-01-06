@@ -12,9 +12,10 @@ import {
     Spinner
 } from 'reactstrap';
 import { BsSearch } from "react-icons/bs";
+import Typewriter from 'typewriter-effect';
 
 import Spin from './Spin'
-import { Demo } from './Chat';
+import { ChatWindow } from './Chat';
 
 const App = () => {
 
@@ -59,10 +60,20 @@ const App = () => {
     }
 
     return <>
-        <Demo />
+        <ChatWindow />
         <Container className='container-fluid text-center'>
-            <h1>Semantic Search on tel-aviv.gov.il</h1>
-            <p>Click here for a chatbot</p>
+            <h1>
+                <Typewriter 
+                    onInit={(typewriter) => {
+                        typewriter
+                        .callFunction(() => {
+                            document.querySelector(".Typewriter__cursor").style.display = "none";                            
+                        })
+                        .typeString('<strong>Semantic Search <span style="color: #27ae60;">on</span> tel-aviv.gov.il</strong>')
+                        .start();
+                    }}
+                />
+            </h1>
         </Container>
         <Container className='container-fluid mt-3'>
             <Row>

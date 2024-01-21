@@ -21,19 +21,24 @@ const App = () => {
 
     const [prompt, setPrompt] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    const [onSearching, setOnSearching] = useState(false)
+    const [onSearching, setOnSearching] = useState(false);
+    const [modelName, setModelName] = useState('');
 
     useEffect(() => {
 
         const fetchData = async () => {
 
             try {
-
+                const response = await axios.get('http://localhost:7071/api/model');
+                const results = await response.data;
+                setModelName(results)
             } catch (e) {
                 console.error(e.message);
             }
 
         }
+
+        fetchData();
 
     }, [])
 
@@ -46,7 +51,7 @@ const App = () => {
         setOnSearching(true);
 
         try {
-            const response = await axios.get('http://localhost:7071/api/Recall?q=' + prompt);
+            const response = await axios.get('http://localhost:7071/api/Search?p=HUGGING_FACE&q=' + prompt);
             const results = await response.data;
             setSearchResults(results);
 
@@ -69,7 +74,7 @@ const App = () => {
                         .callFunction(() => {
                             document.querySelector(".Typewriter__cursor").style.display = "none";                            
                         })
-                        .typeString('<strong>Semantic Search <span style="color: #27ae60;">on</span> tel-aviv.gov.il</strong>')
+                        .typeString('<strong>שאלות על ארנונה <span style="color: #27ae60;">באתר</span> tel-aviv.gov.il</strong>')
                         .start();
                     }}
                 />
@@ -77,16 +82,18 @@ const App = () => {
         </Container>
         <Container className='container-fluid mt-3'>
             <Row>
-                <Col sm="1" className='p-3'>
+                <Col sm="1">
                     <Button className="btn-round" onClick={onSearch}>
                         <BsSearch />
                     </Button>
                 </Col>
-                <Col sm="11" className='p-3'>
+                <Col sm="11" style={{paddingRight: '0px'}}>
                     <Input value={prompt}
-                        onChange={e => setPrompt(e.target.value)} />
+                    style={{border: '3px solid #ccc', height: '39px'}}
+                        onChange={e => setPrompt(e.target.value)} autoFocus/>
                 </Col>
             </Row>
+            <div className='flex items-center'><b>{modelName}</b></div>
             {
                 onSearching ?
                     <Spin /> : <></>
@@ -106,9 +113,11 @@ const App = () => {
                                                 <CardTitle tag="h5">
                                                     <a href={item.url} target='_blank'>{item.title}</a>
                                                 </CardTitle>
-                                                <cite style={{ fontSize: 'small', textOverflow: 'ellipsis' }}>
+                                                {/* <cite style={{ fontSize: 'small', textOverflow: 'ellipsis' }}>
                                                     {item.url}
-                                                </cite>
+                                                </cite> */}
+                                                <div>{item.parentDocId}</div>
+                                                <div>{item.similarity}</div>
                                             </Col>
                                         </Row>
                                     </CardBody>

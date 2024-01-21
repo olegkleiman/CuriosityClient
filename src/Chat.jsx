@@ -137,14 +137,16 @@ const Rtl = () => (
     </style>
 )
 
-async function* makeTextFileLineIterator(q, h = [], signal) {
+async function* getCompletion(q, h = [], signal) {
     const utf8Decoder = new TextDecoder("utf-8");
     const response = await fetch(`http://localhost:7071/api/Chat?q=${q}&h=${JSON.stringify(h)}`,
     {
         signal,
         method: "GET",
     });
-    let reader = response.body.getReader();
+    let reader = response.body?.getReader();
+    if( !reader ) throw new Error("No reader");
+    
     let { value: chunk, done: readerDone } = await reader.read();
     chunk = chunk ? utf8Decoder.decode(chunk, { stream: true }) : "";
 
@@ -203,7 +205,7 @@ export function ChatWindow() {
                         },
                     Content: m.data.text
                 }))
-                for await (let rowLine of makeTextFileLineIterator(q, history, signal)) {
+                for await (let rowLine of getCompletion(q, history, signal)) {
                     if (!Boolean(rowLine.length)) {
                         continue;
                     }

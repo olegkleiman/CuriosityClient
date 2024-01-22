@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "webpack --mode=production --config webpack.config.js",
     "start": "webpack serve --port 8087 --mode=development"
   },
   "dependencies": {

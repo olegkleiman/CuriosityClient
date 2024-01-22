@@ -116,8 +116,8 @@ const App = () => {
                                                 {/* <cite style={{ fontSize: 'small', textOverflow: 'ellipsis' }}>
                                                     {item.url}
                                                 </cite> */}
-                                                <div>{item.parentDocId}</div>
-                                                <div>{item.similarity}</div>
+                                                <div>Parent Doc Id: {item.parentDocId}</div>
+                                                <div>Similarity: {item.similarity}</div>
                                             </Col>
                                         </Row>
                                     </CardBody>

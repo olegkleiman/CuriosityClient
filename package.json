@@ -5,10 +5,12 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production --config webpack.config.js",
+    "deploy" : "gh-pages -d build",
     "start": "webpack serve --port 8087 --mode=development"
   },
   "dependencies": {
     "axios": "^1.6.2",
+    "gh-pages": "^6.1.1",
     "react": "^18.2.0",
     "react-chat-window": "^1.2.1",
     "react-dom": "^18.2.0",

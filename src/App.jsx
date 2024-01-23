@@ -29,7 +29,7 @@ const App = () => {
         const fetchData = async () => {
 
             try {
-                const response = await axios.get('http://localhost:7071/api/model');
+                const response = await axios.get('http://tlvsearch.azurewebsites.net/api/model');
                 const results = await response.data;
                 setModelName(results)
             } catch (e) {
@@ -51,7 +51,7 @@ const App = () => {
         setOnSearching(true);
 
         try {
-            const response = await axios.get('http://localhost:7071/api/Search?p=HUGGING_FACE&q=' + prompt);
+            const response = await axios.get('http://tlvsearch.azurewebsites.net/api/Search?q=' + prompt);
             const results = await response.data;
             setSearchResults(results);
 
